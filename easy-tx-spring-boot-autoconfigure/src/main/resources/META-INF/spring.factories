@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.easy.tx.autoconfigure.TxAutoConfiguration,\
+  com.easy.tx.autoconfigure.TxLockAutoConfiguration,\
+  com.easy.tx.autoconfigure.RedissonAutoConfiguration
+
