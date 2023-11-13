@@ -5,6 +5,7 @@ import com.easy.tx.message.GlobalTxSession;
 import com.easy.tx.remote.*;
 import com.easy.tx.tc.manager.TcGlobalExecutor;
 import com.easy.tx.util.RpcMessageUtil;
+import com.easy.tx.util.TxObjectMapper;
 
 /**
  * 分支注册处理器
@@ -24,9 +25,9 @@ public class GlobalConmmitProcessor implements RemoteMessageProcessor {
      */
     @Override
     public void process(RemoteResponse response, RemoteMessage message) {
-        Object body = message.getBody();
+        String body = message.getBody();
 
-        GlobalTxSession globalTxSession = (GlobalTxSession) body;
+        GlobalTxSession globalTxSession = TxObjectMapper.toBean(body,GlobalTxSession.class);
         
         globalConmmitManager.commit(globalTxSession);
         
