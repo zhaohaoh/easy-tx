@@ -8,7 +8,7 @@ import javax.naming.OperationNotSupportedException;
  * @author hzh
  * @date 2023/08/02
  */
-public interface TxManager {
+public interface GlobalTxManager {
 
     /**
      * 开始事务
@@ -25,7 +25,7 @@ public interface TxManager {
     /**
      * 回滚事务
      */
-    void roback();
+    void rollback();
 
     /**
      * 新事务id

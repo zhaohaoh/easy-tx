@@ -19,11 +19,11 @@ public class RedisTxIdGenertater implements TxIdGenerater {
     }
 
     @Override
-    public String newTxId() {
+    public String newTxId(String type) {
         if (idGenerator == null) {
             synchronized (RedisTxIdGenertater.class) {
                 if (idGenerator == null) {
-                    idGenerator = redissonClient.getIdGenerator("EASY_TX_ID");
+                    idGenerator = redissonClient.getIdGenerator(type);
                     idGenerator.tryInit(0, 1000);
                 }
             }
@@ -31,9 +31,9 @@ public class RedisTxIdGenertater implements TxIdGenerater {
 
         long id = idGenerator.nextId();
         if (id >= (Long.MAX_VALUE >> 1)) {
-            id = reTryInit(id);
+            id = reTryInit(type,id);
         }
-        return "TX" + id;
+        return type + "_" + id;
     }
 
     /**
@@ -42,16 +42,16 @@ public class RedisTxIdGenertater implements TxIdGenerater {
      * @param id id
      * @return long
      */
-    private long reTryInit(long id) {
+    private long reTryInit(String type,long id) {
         RLock easyTxIdLock = redissonClient.getLock("EASY_TX_ID_LOCK");
         boolean lock = easyTxIdLock.tryLock();
         if (lock) {
             try {
-                idGenerator = redissonClient.getIdGenerator("EASY_TX_ID");
+                idGenerator = redissonClient.getIdGenerator(type);
                 id = idGenerator.nextId();
                 if (id >= (Long.MAX_VALUE >> 1)) {
                     idGenerator.delete();
-                    idGenerator = redissonClient.getIdGenerator("EASY_TX_ID");
+                    idGenerator = redissonClient.getIdGenerator(type);
                     idGenerator.tryInit(0, 1000);
                     id = idGenerator.nextId();
                 }

@@ -1,6 +1,5 @@
 package com.easy.tx.template;
 
-import com.easy.tx.context.GlobalTxContext;
 import com.easy.tx.manager.SagaGlobalTxManager;
 
 /**
@@ -39,8 +38,8 @@ public class SagaTxTemplate {
     /**
      * 回滚事务
      */
-    public void roback() {
-        sagaGlobalTxManager.roback();
+    public void rollback() {
+        sagaGlobalTxManager.rollback();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.easy.tx.store;
+package com.easy.tx.store.undo;
 
 import lombok.Data;
 
@@ -14,6 +14,9 @@ public class SagaUndoLog {
     private String methodName;
     private Object[] args;
     private String[] parameterTypes;
+
+    public SagaUndoLog() {
+    }
 
     public SagaUndoLog(String className, String methodName, Object[] args, String[] parameterTypes) {
         this.className = className;

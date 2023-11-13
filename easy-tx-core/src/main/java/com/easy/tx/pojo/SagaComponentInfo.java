@@ -15,20 +15,20 @@ public class SagaComponentInfo {
     /**
      * 当前代理
      */
-    private Object robackProxy;
+    private Object rollbackProxy;
     /**
      * 超时 暂不使用
      *
      * @return int
      */
-    private Integer timeout;
+    private Long timeout;
 
     /**
-     * roback方法
+     * rollback方法
      *
      * @return {@link String}
      */
-    private String robackMethod;
+    private String rollbackMethod;
 
 
 

@@ -1,7 +1,7 @@
 package com.easy.tx.autoconfigure;
 
-import com.easy.tx.lock.LocalTxLock;
-import com.easy.tx.lock.RedisTxLock;
+import com.easy.tx.lock.BranchTxLock;
+import com.easy.tx.lock.RedisBranchTxLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +18,10 @@ public class TxLockAutoConfiguration {
      * 事务锁
      *
      * @param redissonClient redisson客户
-     * @return {@link LocalTxLock}
+     * @return {@link BranchTxLock}
      */
     @Bean
-    public LocalTxLock txLock(RedissonClient redissonClient) {
-        return new RedisTxLock(redissonClient);
+    public BranchTxLock txLock(RedissonClient redissonClient) {
+        return new RedisBranchTxLock(redissonClient);
     }
 }

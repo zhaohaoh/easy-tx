@@ -6,7 +6,7 @@ package com.easy.tx.lock;
  * @author hzh
  * @date 2023/08/02
  */
-public interface LocalTxLock {
+public interface BranchTxLock {
 
     /**
      * 试着锁
@@ -20,7 +20,7 @@ public interface LocalTxLock {
      *
      * @return boolean
      */
-    boolean unLock(String lockKey,String globalTxId);
+    boolean unLock(String globalTxId);
 
 
 }

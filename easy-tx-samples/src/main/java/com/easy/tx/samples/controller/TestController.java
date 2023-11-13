@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
-import java.lang.reflect.Method;
 
 
 @RestController
@@ -28,7 +27,7 @@ public class TestController {
     @ApiOperation(value = "测试新的sss", notes = "")
     @PostMapping("/aaaa/sergfgfgfgssss")
     @Transactional
-    @SagaComponent(robackFor = "aaa")
+    @SagaComponent(rollbackFor = "bbb")
     public Object sefffrssssssssssssssss(@RequestBody SysTest sysTest) {
 
         return null;
@@ -37,15 +36,11 @@ public class TestController {
     @ApiOperation(value = "测试新的", notes = "")
     @PostMapping("/aaaa/sergfgfgfg")
     @Transactional
-    @SagaComponent(robackFor = "aaa", lockFor = "#sysTest.ids", lockKeyForClassName = {SysTest.class})
+    @SagaComponent(rollbackFor = "aaa", lockFor = "#sysTest.ids", lockKeyForClassName = {SysTest.class})
     public Object sefffr(@RequestBody SysTest sysTest) {
         TestController o = (TestController) AopContext.currentProxy();
-        try {
-            Method method = TestController.class.getMethod("bbbbb");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return null;
+        o.sefffrssssssssssssssss(sysTest);
+        throw new RuntimeException();
     }
 
     @ApiOperation(value = "测试事务", notes = "")
@@ -73,26 +68,25 @@ public class TestController {
         sysTest1.setId(1L);
         Long[] longs = {1L, 2L, 3L};
         sysTest1.setIds(longs);
-
-        sagaTxComponentTemplate.startSagaTx("aaa", "bbb", this, "aaa", sysTest1, () -> {
-            TestController o = (TestController) AopContext.currentProxy();
-            o.sefffr(sysTest1);
-            return null;
-        });
-
-        sagaTxComponentTemplate.startSagaTx("aaa", "bbb", this, "aaa", sysTest1, () -> {
-            TestController o = (TestController) AopContext.currentProxy();
-            o.sefffr(sysTest1);
-            throw new RuntimeException();
-        });
+        TestController o = (TestController) AopContext.currentProxy();
+        o.sefffr(sysTest1);
+        System.out.println();
     }
 
     public String aaa(SysTest aaa) {
         SysTest serx = new SysTest();
         serx.setPhone("12345555");
-        System.out.println("事务回滚");
+        System.out.println("方法1事务回滚");
         return "123";
     }
+
+    public String bbb(SysTest aaa) {
+        SysTest serx = new SysTest();
+        serx.setPhone("12345555");
+        System.out.println("方法2事务回滚");
+        return "123";
+    }
+
 
 
     public String lock(SysTest aaa) {

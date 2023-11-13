@@ -1,5 +1,7 @@
 package com.easy.tx.annotation;
 
+import com.easy.tx.constant.RecoveryEnum;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,17 +22,17 @@ public @interface SagaComponent {
      *
      * @return int
      */
-    int timeout() default 60;
+    long timeout() default 60;
 
     /**
-     * roback方法
+     * rollback方法 只支持本类方法    搭配  RecoveryEnum.ROLLBACK
      *
      * @return {@link String}
      */
-    String robackFor();
+    String rollbackFor() default "";
 
     /**
-     * 根据本类方法获取的结果锁定
+     * 根据本类方法获取的结果锁定 支持el表达式 可以跨类调用
      *
      * @return {@link String}
      */
@@ -52,4 +54,11 @@ public @interface SagaComponent {
      * 锁定的key 根据class获取
      */
     Class<?>[] lockKeyForClassName() default {};
+
+    /**
+     * 恢复方式
+     *
+     * @return {@link RecoveryEnum}
+     */
+    RecoveryEnum recovery() default  RecoveryEnum.ROLLBACK;
 }

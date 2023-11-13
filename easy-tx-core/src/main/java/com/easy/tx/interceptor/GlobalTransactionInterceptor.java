@@ -6,7 +6,7 @@ import com.easy.tx.pojo.GlobalTransactionalInfo;
 import com.easy.tx.annotation.GlobalTransaction;
 import com.easy.tx.context.GlobalTxContext;
 import com.easy.tx.exception.TxException;
-import com.easy.tx.manager.TxManager;
+import com.easy.tx.manager.GlobalTxManager;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,9 +24,9 @@ import java.util.Objects;
  */
 public class GlobalTransactionInterceptor implements MethodInterceptor {
 
-    private TxManager globalTxManager;
+    private GlobalTxManager globalTxManager;
 
-    public void setGlobalTxManager(TxManager globalTxManager) {
+    public void setGlobalTxManager(GlobalTxManager globalTxManager) {
         this.globalTxManager = globalTxManager;
     }
 
@@ -85,7 +85,7 @@ public class GlobalTransactionInterceptor implements MethodInterceptor {
             if (commit){
                 globalTxManager.commit();
             }else{
-                globalTxManager.roback();
+                globalTxManager.rollback();
             }
         }
         return o;

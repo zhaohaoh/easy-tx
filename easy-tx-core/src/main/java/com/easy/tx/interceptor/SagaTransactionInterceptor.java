@@ -1,8 +1,9 @@
 package com.easy.tx.interceptor;
 
+import com.easy.tx.constant.RecoveryEnum;
 import com.easy.tx.pojo.SagaComponentInfo;
 import com.easy.tx.pojo.SagaComponentTxExecutor;
-import com.easy.tx.SagaComponentTxExecutorService;
+import com.easy.tx.SagaComponentTxManager;
 import com.easy.tx.annotation.SagaComponent;
 import com.easy.tx.context.GlobalTxContext;
 import com.easy.tx.exception.TxException;
@@ -28,9 +29,9 @@ public class SagaTransactionInterceptor implements MethodInterceptor {
 
     private final Logger log = LoggerFactory.getLogger(SagaTransactionInterceptor.class);
     private static final ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
-    private SagaComponentTxExecutorService sagaComponentTxExecutorService;
+    private SagaComponentTxManager sagaComponentTxExecutorService;
 
-    public void setSagaComponentTxExecutorService(SagaComponentTxExecutorService sagaComponentTxExecutorService) {
+    public void setSagaComponentTxExecutorService(SagaComponentTxManager sagaComponentTxExecutorService) {
         this.sagaComponentTxExecutorService = sagaComponentTxExecutorService;
     }
 
@@ -77,7 +78,8 @@ public class SagaTransactionInterceptor implements MethodInterceptor {
         }
 
 
-//        Method robackMethod = thisProxy.getClass().getDeclaredMethod(sagaComponent.robackFor(), thisMethod.getParameterTypes());
+//        Method rollbackMethod = thisProxy.getClass().getDeclaredMethod(sagaComponent.rollbackFor(), thisMethod.getParameterTypes());
+
 
         Object finalLockValue = lockValue;
         String finalLockKey = lockKey;
@@ -86,15 +88,14 @@ public class SagaTransactionInterceptor implements MethodInterceptor {
             public Object executeAop() throws Throwable {
                 return methodInvocation.proceed();
             }
-
             @Override
             public SagaComponentInfo getSagaComponentInfo() {
                 SagaComponentInfo sagaCompoentInfo = new SagaComponentInfo();
                 sagaCompoentInfo.setTimeout(sagaComponent.timeout());
                 sagaCompoentInfo.setLockValue(finalLockValue);
                 sagaCompoentInfo.setLockKey(finalLockKey);
-                sagaCompoentInfo.setRobackMethod(sagaComponent.robackFor());
-                sagaCompoentInfo.setRobackProxy(methodInvocation.getThis());
+                sagaCompoentInfo.setRollbackMethod(sagaComponent.recovery().equals(RecoveryEnum.FORWARD)?thisMethod.getName() :sagaComponent.rollbackFor());
+                sagaCompoentInfo.setRollbackProxy(methodInvocation.getThis());
                 sagaCompoentInfo.setArgs(args);
                 return sagaCompoentInfo;
             }

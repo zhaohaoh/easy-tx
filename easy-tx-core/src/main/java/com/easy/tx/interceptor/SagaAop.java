@@ -35,7 +35,7 @@ package com.easy.tx.interceptor;//package com.framework.shop.admin.tcc.intercept
 //        Signature sig = point.getSignature();
 //        MethodSignature ms = (MethodSignature) sig;
 //        Class[] parameterTypes = ms.getParameterTypes();
-//        Method method = aThis.getClass().getDeclaredMethod(sagaComponent.robackMethod(), parameterTypes);
+//        Method method = aThis.getClass().getDeclaredMethod(sagaComponent.rollbackMethod(), parameterTypes);
 //
 //        //添加事务
 //        String[] parameterTypesStr = null;

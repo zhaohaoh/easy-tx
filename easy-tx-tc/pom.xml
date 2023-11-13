@@ -17,7 +17,16 @@
     </properties>
     <description>事务协调者</description>
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.zhaohaoh</groupId>
+            <artifactId>easy-tx-core</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 
 </project>
