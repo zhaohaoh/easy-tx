@@ -4,7 +4,6 @@ import com.easy.tx.constant.MessageType;
 import com.easy.tx.constant.TxStatus;
 import com.easy.tx.lock.BranchTxLock;
 import com.easy.tx.message.BranchTxSession;
-import com.easy.tx.message.GlobalTxSession;
 import com.easy.tx.remote.RemoteMessage;
 import com.easy.tx.remote.RemoteMessageProcessor;
 import com.easy.tx.remote.RemoteResponse;

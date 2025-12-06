@@ -24,10 +24,6 @@ public class RemoteMessage {
      */
     private String body;
     /**
-     * 消息源
-     */
-    private String proccessType;
-    /**
      * 地址信息
      */
     private AddressInfo addressInfo;

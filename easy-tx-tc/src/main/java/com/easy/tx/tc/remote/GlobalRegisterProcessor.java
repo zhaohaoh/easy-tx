@@ -1,7 +1,6 @@
 package com.easy.tx.tc.remote;
 
 import com.easy.tx.constant.TxStatus;
-import com.easy.tx.message.BranchTxSession;
 import com.easy.tx.message.GlobalTxSession;
 import com.easy.tx.remote.RemoteMessage;
 import com.easy.tx.remote.RemoteMessageProcessor;
